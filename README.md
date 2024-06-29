@@ -4,11 +4,26 @@ In this assignment, you will be developing a working distributed file
 server. We provide you with only the `gunrock_web` HTTP framework; you
 have to build the rest.
 
-The goals of this project are:
-- To learn the basics of on-disk structures for file systems
-- To learn about file system internals
-- To learn about distributed storage systems
 
+
+# To play with this project
+1. cd gunrock_web
+2. make
+3. ./mkfs -f disk.img 20 20 // call to make a disk image named disk.img, usage: mkfs -f <image_file> [-d <num_data_blocks] [-i <num_inodes>]
+3. have 2 terminals ready and inside gunrock_web, 1 for client input and 1 for the server
+4. In the server terminal, type ./gunrock_web  (This will start the local server with port 8080)
+5. In the client terminal, try 3 commands: PUT, GET, DELETE. 
+6. For example: % curl -X PUT -d "file contents" http://localhost:8080/ds3/a/b/c.txt
+    /*This will go to directory a/b/c.txt and rewrite the file content of c.txt with "file contents", and
+    if c.txt does not exist it would create it and write in(more details below)*/
+
+    You can check by using:
+    a. % ./ds3ls disk.img // to check for the created structure of the tree, where the inodenumber is at front
+    b. % ./ds3cat disk.img 3 // to print out the content of a file with specified inodenumber(c.txt if initially) 
+    c. % ./ds3bits disk.img // to print out the metadata of this disk image(disk)
+
+
+# To gain more insight, see the assignment prompt
 This project consists of three main parts: [reading on-disk storage using command line utilities](#file-system-utilities),
 a [local file system](#local-file-system), and using the local file system to impelemnt a [distributed
 file system](#distributed-file-system-1). We recommend implementing your server in this order where you ensure that you have
